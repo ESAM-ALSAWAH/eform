@@ -1,0 +1,69 @@
+{
+  "name": "@esam_alsawah/eform",
+  "author": "esam.alsawah2000",
+  "repository": {
+    "url": "https://github.com/ESAM-ALSAWAH/eform"
+  },
+  "homepage": "https://github.com/ESAM-ALSAWAH/eform",
+  "main": "dist/index.js",
+  "module": "dist/esm/eform.js",
+  "types": "dist/types/index.d.ts",
+  "version": "1.2.3",
+  "description": "",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "start": "react-pkg-scripts watch",
+    "build": "react-pkg-scripts build",
+    "test": "react-pkg-scripts test",
+    "preview": "react-pkg-scripts preview"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "react-dom": ">=17"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "react"
+  ],
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@headlessui/react": "^1.7.13",
+    "@hookform/resolvers": "^2.9.11",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^18.14.6",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.4",
+    "react-pkg-scripts": "^1.0.9",
+    "ts-jest": "^27.1.5",
+    "tslib": "^2.5.0",
+    "typescript": "~4.5.0",
+    "yup": "^1.0.2"
+  }
+}
