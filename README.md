@@ -1,48 +1,165 @@
-# Getting Started with Create React Package
+# Eform
 
-This package was bootstrapped with [Create React Package](https://github.com/haseebanwar/create-react-pkg). A zero-config tool for creating React libraries.
+## _Simple, extensible and config based form validation with tailwindcss._
 
-## Available Scripts
+## The problem
 
-In the project directory, you can run:
+You want to write simple and maintainable form validations and make the style for it. As part of this goal, you want your validations to be simple yet accomadate your specifc needs.
 
-### `npm start` or `yarn start`
+## This solution
 
-Watches for changes and rebuilds. To see your bundled React component in a browser, use integrated playground with [npm run preview](#npm-run-preview-or-yarn-preview)
+The `eform` is a very lightweight solution for validating forms. It provides react hooks to configure your form, in a way that encourages simpler way to validate form.
 
-Note that this build is not optimized. Use `npm run build` to create an optimized build.
+## Installation
 
-### `npm test` or `yarn test`
-
-Runs tests with Jest.
-
-To launch the test runner in the interactive watch mode, change the `test` script in `package.json`
+This module is distributed via npm which is bundled with node and should be installed as one of your project's dependencies:
 
 ```diff
-  "scripts": {
--   "test": "react-pkg-scripts test"
-+   "test": "react-pkg-scripts test --watch"
-  }
+npm install --save @esam_alsawah/eform
+
+yarn add @esam_alsawah/eform
 ```
 
-### `npm run build` or `yarn build`
+`This library has peerDependencies listings for react and react-dom. and tailwind ,  So it must be used tailwindcss and react in your project to benefit from this library`
 
-Builds the package for production to the `dist` folder. By default, it bundles your package in two module formats, CJS and ESM. But you can also create a UMD build by creating a file `crp.config.js` at the root of project with the following.
+## Examples
 
-```js
-const { defineConfig } = require('react-pkg-scripts');
+### TextField
 
-module.exports = defineConfig({
-  formats: ['cjs', 'esm', 'umd'],
+```diff
+import React from "react";
+import {
+  Form,
+  TextField,
+  yup,
+  useForm,
+  yupResolver,
+} from "@esam_alsawah/eform";
+
+interface TFields {
+  firstName: string;
+}
+const schema = yup.object({
+  firstName: yup.string().required(),
 });
+export const App = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm<TFields>({
+    resolver: yupResolver(schema),
+    reValidateMode: "onChange",
+  });
+  const onSubmit = (values: any) => console.log(values);
+  return (
+    <Form className="px-10" handleSubmit={handleSubmit(onSubmit)}>
+      <TextField
+        label="First Name"
+        error={errors.firstName}
+        messageError={errors.firstName?.message}
+        forms={{ ...register("firstName") }}
+      />
+      <button
+        type="submit"
+        className="bg-white shadow rounded-lg py-2 px-4 mt-5"
+      >
+        submit
+      </button>
+    </Form>
+  );
+};
+
 ```
 
-### `npm run preview` or `yarn preview`
+### Combobx
 
-Opens React app development server from `playground/index.js` for previewing your library in browser. It comes with live reload that makes development much easier.
+```diff
+import React from "react";
+import { Form, Combobox, yup, useForm, yupResolver } from "@esam_alsawah/eform";
 
-Note that the integrated playground depends on the ESM output of your library. So, please run `npm start` with ESM build before running `npm run preview`
+interface TFields {
+  combobx: string;
+}
+const schema = yup.object({
+  combobx: yup.string().required(),
+});
+export const App = () => {
+  const {
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm<TFields>({
+    resolver: yupResolver(schema),
+    reValidateMode: "onChange",
+  });
+  const onSubmit = (values: any) => console.log(values);
+  return (
+    <Form className="px-10" handleSubmit={handleSubmit(onSubmit)}>
+      <Combobox
+        label="Combobx"
+        data={[
+          { id: 0, name: "esam", unavailable: true },
+          { id: 1, name: "alaa" },
+          { id: 2, name: "masa" },
+        ]}
+        error={errors.combobx}
+        messageError={errors.combobx?.message}
+        helperText="select one of these"
+        onChange={(value) =>
+          setValue("combobx", value.name ? value?.name?.toString() : "", {
+            shouldValidate: true,
+          })
+        }
+      />
 
-## Learn More
+      <button
+        type="submit"
+        className="bg-white shadow rounded-lg py-2 px-4 mt-5"
+      >
+        submit
+      </button>
+    </Form>
+  );
+};
 
-You can learn more in the [Create React Package documentation](https://github.com/haseebanwar/create-react-pkg#readme).
+```
+
+### Toggle
+
+```diff
+import React from "react";
+import { Form, Toggle, yup, useForm } from "@esam_alsawah/eform";
+
+interface TFields {
+  toggle: boolean;
+}
+
+export const App = () => {
+  const { handleSubmit, setValue } = useForm<TFields>({
+    reValidateMode: "onChange",
+    defaultValues: {
+      toggle: false,
+    },
+  });
+  const onSubmit = (values: any) => console.log(values);
+  return (
+    <Form className="px-10" handleSubmit={handleSubmit(onSubmit)}>
+      <Toggle
+        label="Toggle"
+        name="toggle"
+        onChange={(value) => setValue("toggle", value)}
+      />
+
+      <button
+        type="submit"
+        className="bg-white shadow rounded-lg py-2 px-4 mt-5"
+      >
+        submit
+      </button>
+    </Form>
+  );
+};
+
+```
